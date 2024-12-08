@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  password         String
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  role             Role      @default(USER)
+  name             String
+  events           Event[]   @relation("UserEvents")
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+  imageUrl    String?
+  createdById Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation("UserEvents", fields: [createdById], references: [id])
+
+  @@index([createdById], map: "Event_createdById_fkey")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
