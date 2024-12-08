@@ -2,7 +2,14 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaBars, FaTimes, FaMoon, FaSun, FaArrowRight, FaChevronDown } from "react-icons/fa";
+import {
+  FaBars,
+  FaTimes,
+  FaMoon,
+  FaSun,
+  FaArrowRight,
+  FaChevronDown,
+} from "react-icons/fa";
 import LogoBlack from "@/src/img/LogoBlack.svg";
 import LogoWhite from "@/src/img/LogoWhite.svg";
 
@@ -38,7 +45,10 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -88,7 +98,7 @@ export default function Navbar() {
               Événements
             </Link>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleDarkMode}

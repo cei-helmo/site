@@ -52,15 +52,15 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        (token as CustomJWT).role = user.role || 'user';
+        (token as CustomJWT).role = user.role || "user";
         (token as CustomJWT).name = user.name || null; // Permettre `null`
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.role = (token as CustomJWT).role || 'user';
-        session.user.name = (token as CustomJWT).name || ''; // Utiliser une chaîne vide par défaut
+        session.user.role = (token as CustomJWT).role || "user";
+        session.user.name = (token as CustomJWT).name || ""; // Utiliser une chaîne vide par défaut
       }
       return session;
     },

@@ -17,17 +17,12 @@ const AdminDashboard = () => {
       router.push("/pages/Dashboard/user");
     }
   }, [session, status, router]);
-  
 
   if (status === "loading" || !session || session.user.role !== "ADMIN") {
     return <div>Loading...</div>;
   }
 
-  return (
-    <DashboardContent>
-      
-    </DashboardContent>
-  );
+  return <DashboardContent></DashboardContent>;
 };
 
 export default AdminDashboard;

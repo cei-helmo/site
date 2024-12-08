@@ -40,7 +40,9 @@ export default function Tutorat() {
     departement: "",
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
@@ -52,15 +54,17 @@ export default function Tutorat() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     const webhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL;
-  
+
     if (!webhookUrl) {
-      console.error("L'URL du webhook est manquante. Vérifiez vos variables d'environnement.");
+      console.error(
+        "L'URL du webhook est manquante. Vérifiez vos variables d'environnement.",
+      );
       alert("Erreur de configuration : L'URL du webhook est absente.");
       return;
     }
-  
+
     const payload = {
       content: `Nouvelle inscription : `,
       embeds: [
@@ -69,40 +73,67 @@ export default function Tutorat() {
           color: activeTab === "tutoree" ? 0x3498db : 0x2ecc71,
           author: { name: "Programme de Tutorat" },
           fields: [
-            { name: "Nom", value: `${formData.name || "Non fourni"}\n`, inline: false },
-            { name: "Email", value: `${formData.email || "Non fourni"}\n`, inline: false },
-            { name: "Discord", value: `${formData.discord || "Non fourni"}\n`, inline: false },
-            { name: "Détails", value: `${formData.details || "Non fourni"}\n`, inline: false },
-            { name: "Département", value: `${formData.departement || "Non fourni"}\n`, inline: false },
+            {
+              name: "Nom",
+              value: `${formData.name || "Non fourni"}\n`,
+              inline: false,
+            },
+            {
+              name: "Email",
+              value: `${formData.email || "Non fourni"}\n`,
+              inline: false,
+            },
+            {
+              name: "Discord",
+              value: `${formData.discord || "Non fourni"}\n`,
+              inline: false,
+            },
+            {
+              name: "Détails",
+              value: `${formData.details || "Non fourni"}\n`,
+              inline: false,
+            },
+            {
+              name: "Département",
+              value: `${formData.departement || "Non fourni"}\n`,
+              inline: false,
+            },
           ],
           description:
             "Voici les détails de l'inscription à notre programme de tutorat.\n\nNous vous remercions de votre inscription et nous vous contacterons bientôt pour vous fournir des informations supplémentaires.",
-          footer: { text: "Tutoring Program - HELMo", icon_url: "https://www.example.com/footer-logo.png" },
+          footer: {
+            text: "Tutoring Program - HELMo",
+            icon_url: "https://www.example.com/footer-logo.png",
+          },
           timestamp: new Date(),
         },
       ],
     };
-  
+
     try {
       const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Erreur ${response.status}: ${response.statusText}`);
       }
-  
+
       alert("Inscription envoyée avec succès !");
-      setFormData({ name: "", email: "", discord: "", details: "", departement: "" }); // Réinitialise le formulaire
+      setFormData({
+        name: "",
+        email: "",
+        discord: "",
+        details: "",
+        departement: "",
+      }); // Réinitialise le formulaire
     } catch (error) {
       console.error("Erreur lors de l'envoi des données au webhook :", error);
       alert("Une erreur s'est produite. Veuillez réessayer.");
     }
   };
-  
-
 
   return (
     <>
@@ -222,20 +253,20 @@ export default function Tutorat() {
                 />
               </div>
               <div>
-                  <label
-                    htmlFor="details"
-                    className="block text-sm font-medium text-black dark:text-white"
-                  >
-                    Détails sur la demande
-                  </label>
-                  <textarea
-                    id="details"
-                    value={formData.details}
-                    onChange={handleTextAreaChange}
-                    className="mt-1 h-24 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                    placeholder="Détails"
-                  />
-                </div>
+                <label
+                  htmlFor="details"
+                  className="block text-sm font-medium text-black dark:text-white"
+                >
+                  Détails sur la demande
+                </label>
+                <textarea
+                  id="details"
+                  value={formData.details}
+                  onChange={handleTextAreaChange}
+                  className="mt-1 h-24 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                  placeholder="Détails"
+                />
+              </div>
 
               <div>
                 <label

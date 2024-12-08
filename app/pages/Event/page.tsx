@@ -1,17 +1,33 @@
-import Navbar from '@/src/components/Navbar'
-import Image from 'next/image'
-import React from 'react'
-import place from '@/src/img/placeholder.png'
-import { FaFacebook, FaInstagram } from 'react-icons/fa'
-import Link from 'next/link'
+import Navbar from "@/src/components/Navbar";
+import Image from "next/image";
+import React from "react";
+import place from "@/src/img/placeholder.png";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Page() {
   const events = [
-    { id: 1, text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ", imageFirst: true },
-    { id: 2, text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ", imageFirst: false },
-    { id: 3, text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ", imageFirst: true },
-    { id: 4, text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ", imageFirst: false },
-  ]
+    {
+      id: 1,
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ",
+      imageFirst: true,
+    },
+    {
+      id: 2,
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ",
+      imageFirst: false,
+    },
+    {
+      id: 3,
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ",
+      imageFirst: true,
+    },
+    {
+      id: 4,
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ",
+      imageFirst: false,
+    },
+  ];
 
   return (
     <>
@@ -26,7 +42,7 @@ export default function Page() {
           {events.map(({ id, text, imageFirst }) => (
             <div
               key={id}
-              className={`flex items-center justify-center flex-col md:flex-row ${imageFirst ? 'md:flex-row' : 'md:flex-row-reverse'} items-center `}
+              className={`flex items-center justify-center flex-col md:flex-row ${imageFirst ? "md:flex-row" : "md:flex-row-reverse"} items-center `}
             >
               <div className="w-full  md:w-1/2 flex items-center justify-center">
                 <Image
@@ -64,5 +80,5 @@ export default function Page() {
         </div>
       </footer>
     </>
-  )
+  );
 }
