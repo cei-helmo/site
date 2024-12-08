@@ -44,13 +44,13 @@ export default function SignIn() {
         password: data.password,
         redirect: false,
       });
-  
+
       if (signInResponse?.error) {
         toast.error("Invalid email or password", { position: "top-center" });
       } else if (signInResponse?.ok) {
         const session = await getSession();
         const userRole = session?.user?.role;
-  
+
         if (userRole === "ADMIN") {
           window.location.href = "/pages/Dashboard/admin";
         } else if (userRole === "USER") {
@@ -63,7 +63,6 @@ export default function SignIn() {
       console.error("[next-auth] Error during signIn:", error);
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">

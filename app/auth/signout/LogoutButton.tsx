@@ -12,7 +12,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ onLogout }) => {
   const handleLogout = async () => {
     try {
       await signOut();
-      window.location.href = "/"
+      window.location.href = "/";
       alert("Vous êtes bien déconnecté");
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);

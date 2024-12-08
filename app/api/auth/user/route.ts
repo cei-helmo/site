@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     if (existingUserByEmail) {
       return NextResponse.json(
         { user: null, message: "User with this email already exists" },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -31,14 +31,13 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { user: newUser, message: "User created successfully" },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error during user creation:", error); // Loggez l'erreur complète ici
     return NextResponse.json(
       { message: "Something went wrong!" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

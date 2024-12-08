@@ -1,7 +1,7 @@
 // app/api/users/route.ts
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export async function GET() {
   try {
@@ -12,11 +12,14 @@ export async function GET() {
         email: true,
         role: true,
       },
-    })
-    return new Response(JSON.stringify(users), { status: 200 })
+    });
+    return new Response(JSON.stringify(users), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to fetch users' }), { status: 500 })
+    console.log(error);
+    return new Response(JSON.stringify({ error: "Failed to fetch users" }), {
+      status: 500,
+    });
   } finally {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   }
 }
