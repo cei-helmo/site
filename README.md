@@ -27,7 +27,7 @@ La stack qui a été utilisé est celle-ci : <br>
 
 1. Commencez par clone le repos github
     ```bash
-   git clone https://github.com/NapoTwiixe306/cei-site.git
+   git clone https://github.com/cei-helmo/site.git
    ```
 2. installez les dépendances `npm install`
 3. ajout du fichier `.env` dedans vous y retrouverez ceci
