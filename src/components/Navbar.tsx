@@ -112,7 +112,7 @@ export default function Navbar() {
             >
               {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
-            <div className="hidden md:block relative" ref={dropdownRef}>
+            {/* <div className="hidden md:block relative" ref={dropdownRef}>
               <button
                 onClick={toggleDropdown}
                 className="flex items-center  text-lg  font-bold text-black rounded-md cursor-pointer bg-customBlue dark:text-white"
@@ -133,7 +133,7 @@ export default function Navbar() {
                   </Link>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -151,7 +151,7 @@ export default function Navbar() {
           >
             Événements
           </Link>
-          <Link
+         {/*  <Link
             href="/auth/register"
             className="text-gray-800 text-lg dark:text-gray-200 transition hover:text-blue-500 dark:hover:text-blue-400 font-bold"
           >
@@ -162,7 +162,7 @@ export default function Navbar() {
             className="text-gray-800 text-lg dark:text-gray-200 transition hover:text-blue-500 dark:hover:text-blue-400 font-bold"
           >
             Connexion
-          </Link>
+          </Link> */}
         </div>
       )}
     </nav>
