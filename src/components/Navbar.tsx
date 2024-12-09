@@ -151,7 +151,7 @@ export default function Navbar() {
           >
             Événements
           </Link>
-          <Link
+          {/* <Link
             href="/auth/register"
             className="text-gray-800 text-lg dark:text-gray-200 transition hover:text-blue-500 dark:hover:text-blue-400 font-bold"
           >
@@ -162,7 +162,7 @@ export default function Navbar() {
             className="text-gray-800 text-lg dark:text-gray-200 transition hover:text-blue-500 dark:hover:text-blue-400 font-bold"
           >
             Connexion
-          </Link>
+          </Link> */}
         </div>
       )}
     </nav>
