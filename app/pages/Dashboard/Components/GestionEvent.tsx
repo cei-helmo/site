@@ -24,6 +24,7 @@ export default function GestionEvent() {
 
   // Charger les événements au montage du composant
   useEffect(() => {
+    {/* logique pour afficher les événements */}
     async function fetchEvents() {
       try {
         const res = await fetch("/api/events");
@@ -101,6 +102,7 @@ export default function GestionEvent() {
           </button>
         </div>
 
+        {/* afficher les événements */}
         <div className="flex flex-col gap-4">
           {isLoading ? (
             <p className="text-center text-gray-500">
