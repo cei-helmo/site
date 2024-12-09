@@ -112,7 +112,7 @@ export default function Navbar() {
             >
               {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
-            <div className="hidden md:block relative" ref={dropdownRef}>
+            {/* <div className="hidden md:block relative" ref={dropdownRef}>
               <button
                 onClick={toggleDropdown}
                 className="flex items-center  text-lg  font-bold text-black rounded-md cursor-pointer bg-customBlue dark:text-white"
@@ -133,7 +133,7 @@ export default function Navbar() {
                   </Link>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
