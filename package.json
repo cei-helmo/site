@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "dev:clean": "next lint && prettier --write . && next dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -19,6 +20,7 @@
     "lucide-react": "^0.462.0",
     "next": "14.2.18",
     "next-auth": "^4.24.10",
+    "nodemailer": "^6.9.16",
     "prisma": "^6.0.0",
     "react": "^18",
     "react-dom": "^18",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8.57.1",

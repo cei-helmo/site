@@ -5,8 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import LogoWhite from "@/src/img/LogoWhite.svg";
 import LogoBlack from "@/src/img/LogoBlack.svg";
-import { gsap } from "gsap"; // Import GSAP
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { gsap } from "gsap";
+import Footer from "@/src/components/Footer";
+
 export default function Home() {
   useEffect(() => {
     gsap.fromTo(
@@ -69,14 +70,62 @@ export default function Home() {
           </p>
           <div className="flex flex-col justify-center items-center sm:flex-row gap-4 mt-6">
             <Link href="/pages/Event">
-              <button className="hero-button px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-700 transition">
-                Événements
-              </button>
+              <div className="flex items-center justify-center">
+                <div className="relative group">
+                  <button className="hero-button relative inline-block p-px font-semibold leading-6 text-white bg-blue-500 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out  active:scale-95">
+                    <span className="relative z-10 block px-6 py-3 rounded-xl bg-blue-500">
+                      <div className="relative z-10 flex items-center space-x-2">
+                        <span className="transition-all duration-500 group-hover:translate-x-1">
+                          Événements
+                        </span>
+                        <svg
+                          className="w-6 h-6 transition-transform duration-500 group-hover:translate-x-1"
+                          data-slot="icon"
+                          aria-hidden="true"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clipRule="evenodd"
+                            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                            fillRule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </Link>
             <Link href="/pages/Tutorat">
-              <button className="hero-button px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-700 transition">
-                Tutorat
-              </button>
+              <div className="flex items-center justify-center">
+                <div className="relative group">
+                  <button className="hero-button relative inline-block p-px font-semibold leading-6 text-white bg-blue-500 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out  active:scale-95">
+                    <span className="relative z-10 block px-6 py-3 rounded-xl bg-blue-500">
+                      <div className="relative z-10 flex items-center space-x-2">
+                        <span className="transition-all duration-500 group-hover:translate-x-1">
+                          Tutorat
+                        </span>
+                        <svg
+                          className="w-6 h-6 transition-transform duration-500 group-hover:translate-x-1"
+                          data-slot="icon"
+                          aria-hidden="true"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clipRule="evenodd"
+                            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                            fillRule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </Link>
           </div>
         </div>
@@ -122,6 +171,10 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-10 px-4 lg:px-20 py-10 w-full mt-8 sm:mt-16 md:mt-8">
+          <h1 className="font-bold text-4xl text-black dark:text-white">Nos Sponsors</h1>
+        </div>
+
         {/* Section Newsletter */}
         <div className="text-black dark:text-white w-full py-12">
           <div className="flex flex-col items-center px-4">
@@ -135,7 +188,7 @@ export default function Home() {
               <input
                 type="email"
                 placeholder="Votre adresse email"
-                className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border border-black dark:border-none"
+                className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border  dark:border-none"
                 required
               />
               <button
@@ -147,24 +200,7 @@ export default function Home() {
             </form>
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="text-black dark:text-white w-full flex items-center justify-between p-6">
-          <div className="text-center mt-4 text-sm">
-            <p>
-              &copy; 2024 Cercle des Étudiants en Informatique. Tous droits
-              réservés.
-            </p>
-          </div>
-          <div className="flex justify-center items-center space-x-8">
-            <Link href="https://www.facebook.com/CEI.HELMo" target="_blank">
-              <FaFacebook className="w-6 h-6 text-blue-600 hover:text-blue-800 transition duration-200" />
-            </Link>
-            <Link href="https://www.instagram.com/cei.helmo/" target="_blank">
-              <FaInstagram className="w-6 h-6 text-pink-600 hover:text-pink-800 transition duration-200" />
-            </Link>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

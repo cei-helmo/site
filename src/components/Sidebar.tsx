@@ -10,6 +10,7 @@ import {
   Sun,
   Shield,
   Tickets,
+  PartyPopper,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -94,6 +95,12 @@ const Sidebar = ({
 
             {role === "USER" && (
               <>
+                <SidebarItem
+                  icon={<PartyPopper size={24} />}
+                  text="Event"
+                  onClick={() => handleSetActivePage("event_user")}
+                  expanded={isExpanded}
+                />
                 <SidebarItem
                   icon={<Settings size={24} />}
                   text="Paramètres"

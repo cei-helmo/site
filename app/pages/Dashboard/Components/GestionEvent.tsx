@@ -22,9 +22,10 @@ export default function GestionEvent() {
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
 
-  // Charger les événements au montage du composant
   useEffect(() => {
-    {/* logique pour afficher les événements */}
+    {
+      /* logique pour afficher les événements */
+    }
     async function fetchEvents() {
       try {
         const res = await fetch("/api/events");

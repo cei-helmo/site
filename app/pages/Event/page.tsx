@@ -1,10 +1,10 @@
-'use client';
+"use client";
 import Navbar from "@/src/components/Navbar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
-import place from '@/src/img/placeholder.png'
+import jeu from "@/src/img/JeuSociete.png";
 
 interface Event {
   id: number;
@@ -44,7 +44,9 @@ export default function Page() {
         </div>
         <div className="flex flex-col gap-16 w-full max-w-5xl px-4 mb-16">
           {isLoading ? (
-            <p className="text-center text-gray-500">Chargement des événements...</p>
+            <p className="text-center text-gray-500">
+              Chargement des événements...
+            </p>
           ) : (
             events.map((event) => (
               <div
@@ -55,19 +57,19 @@ export default function Page() {
               >
                 <div className="w-full md:w-1/2 flex items-center justify-center">
                   <Image
-                    src={place}
+                    src={jeu}
                     alt={`Image de l'événement ${event.title}`}
                     className="rounded-md"
                     width={450}
                     height={300}
-                    priority={event.id === 1} // Chargement prioritaire pour le premier événement
+                    priority={event.id === 1}
                   />
                 </div>
                 <div className="w-full md:w-1/2 mt-6 md:mt-0 px-4">
                   <h2 className="font-bold text-xl text-black dark:text-white">
                     {event.title}
                   </h2>
-                 
+
                   <p className="mt-4 text-black dark:text-gray-300 text-justify">
                     {event.description}
                   </p>
@@ -79,7 +81,10 @@ export default function Page() {
       </div>
       <footer className="bg-white dark:bg-gray-800 text-black dark:text-white w-full flex items-center justify-between p-6">
         <div className="text-center text-sm">
-          <p>&copy; 2024 Cercle des Étudiants en Informatique. Tous droits réservés.</p>
+          <p>
+            &copy; 2024 Cercle des Étudiants en Informatique. Tous droits
+            réservés.
+          </p>
         </div>
         <div className="flex space-x-8">
           <Link href="https://www.facebook.com/CEI.HELMo" target="_blank">
