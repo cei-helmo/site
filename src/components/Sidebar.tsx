@@ -84,11 +84,12 @@ const Sidebar = ({
                   onClick={() => handleSetActivePage("users")}
                   expanded={isExpanded}
                 />
+
                 <SidebarItem
-                  icon={<Shield size={24} />}
-                  text="Admin Panel"
-                  onClick={() => handleSetActivePage("admin")}
-                  expanded={isExpanded}
+                    icon={<Settings size={24} />}
+                    text="Paramètres"
+                    onClick={() => handleSetActivePage("settings")}
+                    expanded={isExpanded}
                 />
               </>
             )}
