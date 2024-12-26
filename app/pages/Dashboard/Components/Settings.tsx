@@ -7,7 +7,6 @@ export default function Settings() {
 
   const [selected, setSelected] = useState<string>("Account");
 
-  // Fonction pour rendre le contenu dynamiquement
   const renderContent = () => {
     switch (selected) {
       case "Account":
