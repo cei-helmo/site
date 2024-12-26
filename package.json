@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "security": "npm audit",
-    "prepare": "husky install",
     "format": "prettier --write .",
     "dev:clean": "next lint && prettier --write . && next dev"
   },
