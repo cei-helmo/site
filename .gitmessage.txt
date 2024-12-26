@@ -1,3 +1,0 @@
-# Type: feat, fix, docs, chore, refactor, test, etc.
-# Scope: What module/feature does this commit target?
-# Description: A short explanation of the change.
