@@ -172,7 +172,9 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col lg:flex-row justify-between items-center gap-10 px-4 lg:px-20 py-10 w-full mt-8 sm:mt-16 md:mt-8">
-          <h1 className="font-bold text-4xl text-black dark:text-white">Nos Sponsors</h1>
+          <h1 className="font-bold text-4xl text-black dark:text-white">
+            Nos Sponsors
+          </h1>
         </div>
 
         {/* Section Newsletter */}

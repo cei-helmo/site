@@ -86,10 +86,10 @@ const Sidebar = ({
                 />
 
                 <SidebarItem
-                    icon={<Settings size={24} />}
-                    text="Paramètres"
-                    onClick={() => handleSetActivePage("settings")}
-                    expanded={isExpanded}
+                  icon={<Settings size={24} />}
+                  text="Paramètres"
+                  onClick={() => handleSetActivePage("settings")}
+                  expanded={isExpanded}
                 />
               </>
             )}

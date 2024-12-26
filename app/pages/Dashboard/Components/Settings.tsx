@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import Profile from "../user/components/Profile";
 
 export default function Settings() {
-  const listData = [{ title: "Account" }, { title: "Profile" }];
+  const listData = [{ title: "Profile" }, { title: "Apparence" }];
 
-  const [selected, setSelected] = useState<string>("Account");
+  const [selected, setSelected] = useState<string>("Profile");
 
   const renderContent = () => {
     switch (selected) {
-      case "Account":
-        return <div className="p-4">Here are your account settings.</div>;
       case "Profile":
         return <Profile />;
+      case "Apparence":
+        return <div className="p-4">Here are your Apparence settings.</div>;
       default:
         return <div className="p-4">Select an option to see details.</div>;
     }
