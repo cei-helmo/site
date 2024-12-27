@@ -10,15 +10,15 @@ export default function Profile() {
   return (
     <>
       <div>
-        <div className="border-gray rounded-md border-2 p-3">
+        <div className="border-gray rounded-md border-2 p-6">
           <div className="flex flex-col gap-3">
-            <div className="flex flex-col  gap-4">
+            {/*<h1 className="text-black dark:text-white font-bold text-4xl">Profile</h1>*/}
+            <div className="flex flex-col gap-4">
               <div>
                 <div className="w-20 h-20 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
                   {avatarInitials}
                 </div>
               </div>
-
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
                   <h1>
