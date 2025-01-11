@@ -17,26 +17,31 @@ export default function GestionEvent() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
-  // Etats pour le formulaire
+  // États pour le formulaire
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
 
-  // Charger les événements au montage du composant
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const res = await fetch("/api/events");
-        if (!res.ok) throw new Error("Erreur de récupération des événements");
-        const data = await res.json();
-        setEvents(data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des événements :", error);
-      } finally {
-        setIsLoading(false);
+  // Déclaration de fetchEvents
+  const fetchEvents = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/events");
+      if (!res.ok) {
+        console.error("Erreur API :", await res.text());
+        throw new Error("Erreur de récupération des événements");
       }
+      const data = await res.json();
+      setEvents(data); // Mettre à jour l'état avec les événements récupérés
+    } catch (error) {
+      console.error("Erreur lors du chargement des événements :", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
+  // Appel initial dans useEffect
+  useEffect(() => {
     fetchEvents();
   }, []);
 
@@ -57,12 +62,10 @@ export default function GestionEvent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const formattedDate = new Date(date).toISOString();
-
     const eventData = {
-      title,
-      description,
+      title: title || "Nouvel Événement",
+      description: description || "Description de l'événement",
       date: formattedDate,
     };
 
@@ -79,10 +82,11 @@ export default function GestionEvent() {
         throw new Error("Erreur lors de la création de l'événement");
       }
 
-      const data = await response.json();
-      closeModal();
+      // Appel à fetchEvents pour obtenir les événements mis à jour après la création
+      fetchEvents();
+      closeModal(); // Fermer le modal après la soumission
     } catch (error) {
-      console.error("Erreur lors de la soumission du formulaire:", error);
+      console.error("Erreur lors de la soumission :", error);
     }
   };
 
@@ -95,12 +99,13 @@ export default function GestionEvent() {
           </h1>
           <button
             onClick={handleClick}
-            className="flex  justify-center items-center  gap-2 p-4 font-semibold rounded-md text-white dark:text-black bg-black dark:bg-white"
+            className="flex justify-center items-center gap-2 p-4 font-semibold rounded-md text-white dark:text-black bg-black dark:bg-white"
           >
             <Plus /> Ajouter un événement
           </button>
         </div>
 
+        {/* Afficher les événements */}
         <div className="flex flex-col gap-4">
           {isLoading ? (
             <p className="text-center text-gray-500">

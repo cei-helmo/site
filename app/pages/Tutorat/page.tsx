@@ -291,7 +291,7 @@ export default function Tutorat() {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 dark:hover:bg-gray-500 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium transition-all text-white bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
                 {activeTab === "tutoree"
                   ? "S'inscrire comme tutoré"

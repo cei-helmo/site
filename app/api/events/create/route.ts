@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Créer le nouvel événement
     const newEvent = await prisma.event.create({
       data: {
         title,
@@ -36,7 +37,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(newEvent, { status: 201 });
+    // Récupérer tous les événements après la création
+    const allEvents = await prisma.event.findMany();
+
+    return NextResponse.json(allEvents, { status: 201 });
   } catch (error) {
     console.error("Error creating event:", error); // LOG: Erreur serveur
     return NextResponse.json(
