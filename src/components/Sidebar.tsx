@@ -8,7 +8,6 @@ import {
   LogOut,
   Moon,
   Sun,
-  Shield,
   Tickets,
   PartyPopper,
 } from "lucide-react";
@@ -84,13 +83,12 @@ const Sidebar = ({
                   onClick={() => handleSetActivePage("users")}
                   expanded={isExpanded}
                 />
-
-                <SidebarItem
+                {/* <SidebarItem
                   icon={<Settings size={24} />}
                   text="Paramètres"
                   onClick={() => handleSetActivePage("settings")}
                   expanded={isExpanded}
-                />
+                /> */}
               </>
             )}
 

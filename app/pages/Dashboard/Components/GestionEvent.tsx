@@ -92,37 +92,39 @@ export default function GestionEvent() {
 
   return (
     <>
-      <div className="flex flex-col gap-7">
-        <div className="title flex flex-col md:flex-row lg:flex-row justify-between">
-          <h1 className="text-black dark:text-white font-bold text-4xl">
+      <div className="flex flex-col gap-7 px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <h1 className="text-black dark:text-white font-bold text-2xl sm:text-3xl md:text-4xl">
             Gestion des Événements
           </h1>
           <button
             onClick={handleClick}
-            className="flex justify-center items-center gap-2 p-4 font-semibold rounded-md text-white dark:text-black bg-black dark:bg-white"
+            className="flex justify-center items-center gap-2 p-3 sm:p-4 font-semibold rounded-md text-white dark:text-black bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200"
           >
             <Plus /> Ajouter un événement
           </button>
         </div>
 
         {/* Afficher les événements */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col w-auto gap-4">
           {isLoading ? (
-            <p className="text-center text-gray-500">
+            <p className="text-center text-gray-500 col-span-full">
               Chargement des événements...
             </p>
           ) : (
             events?.map((event: Event) => (
               <div
                 key={event.id}
-                className="up w-full p-6 border-gray-500 rounded-md border-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-4 bg-white dark:bg-gray-800 border-2 border-gray-300 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => handleEventClick(event)}
               >
-                <h2 className="text-xl font-semibold">{event.title}</h2>
-                <p className="text-gray-500">
+                <h2 className="text-lg sm:text-xl font-semibold text-black dark:text-white">
+                  {event.title}
+                </h2>
+                <p className="text-sm sm:text-base text-gray-500">
                   {new Date(event.date).toLocaleDateString()}
                 </p>
-                <p className="text-gray-700 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   {event.description.length > 100
                     ? `${event.description.substring(0, 100)}...`
                     : event.description}
@@ -138,7 +140,7 @@ export default function GestionEvent() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <form
             onSubmit={handleSubmit}
-            className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg w-1/3"
+            className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg w-full sm:w-4/5 md:w-1/2 lg:w-1/3"
           >
             <h2 className="text-xl font-bold mb-4 text-black dark:text-white">
               Ajouter un événement
@@ -154,7 +156,7 @@ export default function GestionEvent() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Le titre de l'événement"
                   required
-                  className="py-2 px-3 text-black dark:text-black rounded-md border-black border-2"
+                  className="py-2 px-3 text-black dark:text-black rounded-md border-2 border-black dark:border-gray-500"
                 />
               </div>
               <div className="flex flex-col text-black dark:text-white gap-1">
@@ -167,7 +169,7 @@ export default function GestionEvent() {
                   rows={3}
                   placeholder="Ajoutez une description"
                   required
-                  className="rounded-md p-3 text-black dark:text-black border-black border-2"
+                  className="rounded-md p-3 text-black dark:text-black border-2 border-black dark:border-gray-500"
                 ></textarea>
               </div>
               <div className="flex flex-col text-black dark:text-white gap-1">
@@ -179,7 +181,7 @@ export default function GestionEvent() {
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   required
-                  className="py-2 px-3 text-black dark:text-black rounded-md border-black border-2"
+                  className="py-2 px-3 text-black dark:text-black rounded-md border-2 border-black dark:border-gray-500"
                 />
               </div>
             </div>
@@ -205,7 +207,7 @@ export default function GestionEvent() {
       {/* Modal pour afficher les détails d'un événement */}
       {selectedEvent && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg w-1/3">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg w-full sm:w-4/5 md:w-1/2 lg:w-1/3">
             <h2 className="text-xl font-bold mb-4 text-black dark:text-white">
               {selectedEvent.title}
             </h2>

@@ -50,8 +50,8 @@ const renderContent = (activePage: string) => {
       return <div className="text-black dark:text-white">Admin Panel</div>;
     case "event_user":
       return <Event_User />;
-    case "settings":
-      return <Settings />;
+    /* case "settings":
+      return <Settings />; */
     default:
       return <div className="text-black dark:text-white">Page non trouvée</div>;
   }
