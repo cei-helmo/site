@@ -31,13 +31,13 @@ export default function GestionUsers() {
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <div className="text-black dark:text-white px-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold mb-4">Gestion des utilisateurs</h1>
-      
+
       {/* Search Input */}
       <div className="mb-4">
         <input
@@ -48,7 +48,7 @@ export default function GestionUsers() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      
+
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto border-collapse">

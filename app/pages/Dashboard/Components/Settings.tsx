@@ -16,9 +16,17 @@ export default function Settings() {
       case "Profile":
         return <Profile />;
       case "Notifications":
-        return <div className="p-4">Parametres de notification bientôt disponible</div>;
+        return (
+          <div className="p-4">
+            Parametres de notification bientôt disponible
+          </div>
+        );
       case "Apparence":
-        return <div className="p-4">Parametres d&#39;apparence bientôt disponible</div>;
+        return (
+          <div className="p-4">
+            Parametres d&#39;apparence bientôt disponible
+          </div>
+        );
       default:
         return <div className="p-4">Select an option to see details.</div>;
     }
