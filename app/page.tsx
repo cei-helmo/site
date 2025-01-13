@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/src/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,6 +9,33 @@ import { gsap } from "gsap";
 import Footer from "@/src/components/Footer";
 
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage('');
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        setMessage('Merci de vous être abonné à notre newsletter.');
+        setEmail('');
+      } else {
+        const { error } = await res.json();
+        setMessage(error || 'Une erreur est survenue.');
+      }
+    } catch (error) {
+      setMessage('Une erreur est survenue. Veuillez réessayer.');
+    }
+  };
   useEffect(() => {
     gsap.fromTo(
       ".hero-title",
@@ -179,29 +206,33 @@ export default function Home() {
 
         {/* Section Newsletter */}
         <div className="text-black dark:text-white w-full py-12">
-          <div className="flex flex-col items-center px-4">
-            <h3 className="text-3xl font-bold mb-4">
-              Abonnez-vous à notre newsletter
-            </h3>
-            <p className="text-lg mb-6">
-              Restez à jour avec nos événements et nos activités.
-            </p>
-            <form className="flex items-center w-full max-w-sm ">
-              <input
-                type="email"
-                placeholder="Votre adresse email"
-                className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border  dark:border-none"
-                required
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600"
-              >
-                S&#39;abonner
-              </button>
-            </form>
-          </div>
-        </div>
+      <div className="flex flex-col items-center px-4">
+        <h3 className="text-3xl font-bold mb-4">
+          Abonnez-vous à notre newsletter
+        </h3>
+        <p className="text-lg mb-6">
+          Restez à jour avec nos événements et nos activités.
+        </p>
+        <form className="flex items-center w-full max-w-sm" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Votre adresse email"
+            className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border dark:border-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="px-6 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600"
+          >
+            S&#39;abonner
+          </button>
+        </form>
+        {message && <p className="mt-4 text-center">{message}</p>}
+      </div>
+    </div>
+
         <Footer />
       </div>
     </>
