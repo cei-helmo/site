@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "./prisma";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 
 // Définir le type personnalisé pour le JWT avec un champ 'role' et 'name'

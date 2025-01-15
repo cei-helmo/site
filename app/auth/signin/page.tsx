@@ -54,7 +54,8 @@ export default function SignIn() {
         if (userRole === "ADMIN") {
           window.location.href = "/pages/Dashboard/admin";
         } else if (userRole === "USER") {
-          window.location.href = "/pages/Dashboard/user";
+          window.location.href = "/";
+          alert("Le dashboard utilisateurs n'est pas encore disponible !!")
         } else {
           toast.error("User role is invalid", { position: "top-center" });
         }
