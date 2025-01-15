@@ -1,0 +1,40 @@
+services:
+  cei_mysql:
+    container_name: cei_mysql
+    image: mysql:latest
+    restart: "unless-stopped"
+
+    volumes:
+      - cei_mysql_data:/var/lib/mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: "Jean-Michelle7845"
+      MYSQL_DATABASE: cei
+      MYSQL_USER: julien
+      MYSQL_PASSWORD: Jean-Michelle7845
+
+    networks:
+      - cei
+
+  cei_next:
+    container_name: cei_next
+    restart: "unless-stopped"
+    build:
+      context: .
+      dockerfile: Dockerfile  # Spécifier le Dockerfile
+
+    depends_on:
+      - cei_mysql
+
+    ports:
+      - "3000:3000"
+
+    networks:
+      - cei
+
+volumes:
+  cei_mysql_data:
+    name: cei_mysql-data
+
+networks:
+  cei:

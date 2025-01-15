@@ -28,25 +28,6 @@ export default function GestionUsers() {
     fetchUsers();
   }, []);
 
-  /* const changeRole = async (userId: number, newRole: string) => {
-    try {
-      const res = await fetch(`/api/users/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ role: newRole }),
-      })
-      if (res.ok) {
-        fetchUsers() 
-      } else {
-        console.error('Failed to update role')
-      }
-    } catch (error) {
-      console.error('Failed to change role:', error)
-    }
-  } */
-
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -56,13 +37,19 @@ export default function GestionUsers() {
   return (
     <div className="text-black dark:text-white px-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold mb-4">Gestion des utilisateurs</h1>
-      <input
-        type="text"
-        placeholder="Rechercher un utilisateur..."
-        className="border text-black rounded-md focus:outline-none p-2 mb-4 w-full sm:w-80 md:w-96 lg:w-1/2 xl:w-1/3"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+
+      {/* Search Input */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Rechercher un utilisateur..."
+          className="border text-black rounded-md focus:outline-none p-2 w-full sm:w-80 md:w-96 lg:w-1/2 xl:w-1/3"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto border-collapse">
           <thead>

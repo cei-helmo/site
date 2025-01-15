@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/src/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,8 +7,40 @@ import LogoWhite from "@/src/img/LogoWhite.svg";
 import LogoBlack from "@/src/img/LogoBlack.svg";
 import { gsap } from "gsap";
 import Footer from "@/src/components/Footer";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage("");
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Merci de vous être abonné à notre newsletter.");
+        setEmail("");
+        toast.success(data.message || "Abonnement réussi !");
+      } else {
+        const { error } = await res.json();
+        setMessage(error || "Une erreur est survenue.");
+        toast.error(data.error || "Une erreur est survenue.");
+      }
+    } catch (error) {
+      setMessage("Une erreur est survenue. Veuillez réessayer.");
+      toast.error("Erreur de connexion au serveur.");
+    }
+  };
   useEffect(() => {
     gsap.fromTo(
       ".hero-title",
@@ -179,6 +211,7 @@ export default function Home() {
 
         {/* Section Newsletter */}
         <div className="text-black dark:text-white w-full py-12">
+        <ToastContainer position="bottom-right" />
           <div className="flex flex-col items-center px-4">
             <h3 className="text-3xl font-bold mb-4">
               Abonnez-vous à notre newsletter
@@ -186,11 +219,16 @@ export default function Home() {
             <p className="text-lg mb-6">
               Restez à jour avec nos événements et nos activités.
             </p>
-            <form className="flex items-center w-full max-w-sm ">
+            <form
+              className="flex items-center w-full max-w-sm"
+              onSubmit={handleSubmit}
+            >
               <input
                 type="email"
                 placeholder="Votre adresse email"
-                className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border  dark:border-none"
+                className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border dark:border-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
               <button
@@ -200,8 +238,10 @@ export default function Home() {
                 S&#39;abonner
               </button>
             </form>
+            {message && <p className="mt-4 text-center">{message}</p>}
           </div>
         </div>
+
         <Footer />
       </div>
     </>
