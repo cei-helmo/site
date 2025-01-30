@@ -1,6 +1,6 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
-import Navbar from "@/src/components/Navbar";
+import Navbar from "@/components/Navbar";
 import { GraduationCap, HelpCircle, Calendar, Users } from "lucide-react";
 
 const textData = [
@@ -109,7 +109,7 @@ export default function Tutorat() {
             "Voici les détails de l'inscription à notre programme de tutorat.\n\nNous vous remercions de votre inscription et nous vous contacterons bientôt pour vous fournir des informations supplémentaires.",
           footer: {
             text: "Tutoring Program - HELMo",
-            icon_url: "https://www.example.com/footer-logo.png",
+            icon_url: "https://www.example.com/footer-logowebp",
           },
           timestamp: new Date(),
         },

@@ -10,8 +10,6 @@ import {
   FaArrowRight,
   FaChevronDown,
 } from "react-icons/fa";
-import LogoBlack from "@/src/img/LogoBlack.svg";
-import LogoWhite from "@/src/img/LogoWhite.svg";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,10 +74,10 @@ export default function Navbar() {
             <Link href="/">
               <div className="flex items-center cursor-pointer">
                 <div className="block dark:hidden">
-                  <Image src={LogoBlack} alt="Logo CEI Light" height={25} />
+                  <Image src="/LogoBlack.svg" alt="Logo CEI Light" height={25} />
                 </div>
                 <div className="hidden dark:block">
-                  <Image src={LogoWhite} alt="Logo CEI Dark" height={25} />
+                  <Image src="/LogoWhite.svg" alt="Logo CEI Dark" height={25} />
                 </div>
               </div>
             </Link>

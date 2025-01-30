@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/src/components/Sidebar";
+import Sidebar from "@/components/Sidebar";
 import { useSession } from "next-auth/react";
 import { ReactNode, useEffect, useState } from "react";
 import GestionUsers from "./Components/GestionUsers";

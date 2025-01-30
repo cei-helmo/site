@@ -1,10 +1,8 @@
-version: "3.8"
-
 services:
   cei_mysql:
     container_name: cei_mysql
     image: mysql:latest
-    restart: "unless-stopped"
+    restart: unless-stopped
 
     volumes:
       - cei_mysql_data:/var/lib/mysql
@@ -15,13 +13,17 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
     networks:
       - cei
 
   cei_next:
     container_name: cei_next
-    restart: "unless-stopped"
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
@@ -38,6 +40,8 @@ services:
 volumes:
   cei_mysql_data:
     name: cei_mysql-data
+    driver: local
 
 networks:
   cei:
+    driver: bridge

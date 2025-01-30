@@ -1,12 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import Navbar from "@/src/components/Navbar";
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
-import LogoWhite from "@/src/img/LogoWhite.svg";
-import LogoBlack from "@/src/img/LogoBlack.svg";
 import { gsap } from "gsap";
-import Footer from "@/src/components/Footer";
+import Footer from "@/components/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
@@ -186,7 +184,7 @@ export default function Home() {
           <div className="flex justify-center lg:w-1/2">
             <div className="block dark:hidden logo">
               <Image
-                src={LogoBlack}
+                src="/LogoBlack.svg"
                 alt="Logo CEI Light"
                 width={400}
                 height={200}
@@ -194,7 +192,7 @@ export default function Home() {
             </div>
             <div className="hidden dark:block logo">
               <Image
-                src={LogoWhite}
+                src="/LogoWhite.svg"
                 alt="Logo CEI Dark"
                 width={400}
                 height={200}

@@ -1,10 +1,9 @@
 "use client";
-import Navbar from "@/src/components/Navbar";
+import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
-import jeu from "@/src/img/JeuSociete.png";
 
 interface Event {
   id: number;
@@ -57,7 +56,7 @@ export default function Page() {
               >
                 <div className="w-full md:w-1/2 flex items-center justify-center">
                   <Image
-                    src={jeu}
+                    src="/JeuSocietewebp"
                     alt={`Image de l'événement ${event.title}`}
                     className="rounded-md"
                     width={450}
