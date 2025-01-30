@@ -1,7 +1,5 @@
 # Bienvenue sur la doc du site du C.E.I
 
-# LE CODE DU PROJET EST EN SOURCE FERMER, NE LE PARTAGEZ PAS
-
 ## Intro
 
 Ce README est fait pour les personnes reprennant le projet du site du C.E.I <br>
@@ -38,8 +36,13 @@ La stack qui a été utilisé est celle-ci : <br>
    ```txt
    NEXT_PUBLIC_DISCORD_WEBHOOK_URL=
    DATABASE_URL="mysql://user:password@localhost:3306/cei?schema=public"
-   NEXTAUTH_URL=
+   NEXTAUTH_URL=http://localhost:3000
+   NEXT_PUBLIC_API_URL=http://localhost:3000
    NEXTAUTH_SECRET=
+   GMAIL_USER=
+   GMAIL_PASSWORD=
+   NEXT_PUBLIC_ROLE_ID_TUTOREE=
+   NEXT_PUBLIC_ROLE_ID_OTHER=
    ```
 4. Mise en place de Prisma
    ```bash
