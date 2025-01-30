@@ -5,10 +5,9 @@ import prisma from "./prisma";
 import { compare } from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 
-// Définir le type personnalisé pour le JWT avec un champ 'role' et 'name'
 interface CustomJWT extends JWT {
   role?: string;
-  name?: string | null; // Accepter `null` si le nom est absent
+  name?: string | null; 
 }
 
 export const authOptions: NextAuthOptions = {
@@ -39,12 +38,11 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // Retourner l'utilisateur avec son nom et rôle
         return {
           id: user.id.toString(),
           email: user.email,
           role: user.role,
-          name: user.name, // Inclure le nom ici
+          name: user.name,
         };
       },
     }),
@@ -53,14 +51,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         (token as CustomJWT).role = user.role || "user";
-        (token as CustomJWT).name = user.name || null; // Permettre `null`
+        (token as CustomJWT).name = user.name || null; 
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.role = (token as CustomJWT).role || "user";
-        session.user.name = (token as CustomJWT).name || ""; // Utiliser une chaîne vide par défaut
+        session.user.name = (token as CustomJWT).name || ""; 
       }
       return session;
     },

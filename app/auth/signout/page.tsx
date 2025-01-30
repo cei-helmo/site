@@ -1,4 +1,3 @@
-// app/auth/signout/page.tsx
 "use client";
 
 import React from "react";

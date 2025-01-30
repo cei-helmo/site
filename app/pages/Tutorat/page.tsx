@@ -52,11 +52,17 @@ export default function Tutorat() {
     setFormData({ ...formData, [id]: value });
   };
 
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const webhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL;
 
+    const roleId =
+      activeTab === "tutoree"
+        ? process.env.NEXT_PUBLIC_ROLE_ID_TUTOREE
+        : process.env.NEXT_PUBLIC_ROLE_ID_OTHER;
+  
     if (!webhookUrl) {
       console.error(
         "L'URL du webhook est manquante. Vérifiez vos variables d'environnement.",
@@ -66,7 +72,7 @@ export default function Tutorat() {
     }
 
     const payload = {
-      content: `Nouvelle inscription : `,
+      content: `Nouvelle inscription : <@&${roleId}>`,
       embeds: [
         {
           title: "Détails de l'inscription",
@@ -128,7 +134,7 @@ export default function Tutorat() {
         discord: "",
         details: "",
         departement: "",
-      }); // Réinitialise le formulaire
+      }); 
     } catch (error) {
       console.error("Erreur lors de l'envoi des données au webhook :", error);
       alert("Une erreur s'est produite. Veuillez réessayer.");

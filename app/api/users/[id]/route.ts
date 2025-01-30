@@ -1,4 +1,3 @@
-// app/api/users/[id]/route.ts
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();

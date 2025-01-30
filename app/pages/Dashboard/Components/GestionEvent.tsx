@@ -17,12 +17,10 @@ export default function GestionEvent() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
-  // États pour le formulaire
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
 
-  // Déclaration de fetchEvents
   const fetchEvents = async () => {
     setIsLoading(true);
     try {
@@ -32,7 +30,7 @@ export default function GestionEvent() {
         throw new Error("Erreur de récupération des événements");
       }
       const data = await res.json();
-      setEvents(data); // Mettre à jour l'état avec les événements récupérés
+      setEvents(data); 
     } catch (error) {
       console.error("Erreur lors du chargement des événements :", error);
     } finally {
@@ -40,7 +38,6 @@ export default function GestionEvent() {
     }
   };
 
-  // Appel initial dans useEffect
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -82,9 +79,8 @@ export default function GestionEvent() {
         throw new Error("Erreur lors de la création de l'événement");
       }
 
-      // Appel à fetchEvents pour obtenir les événements mis à jour après la création
       fetchEvents();
-      closeModal(); // Fermer le modal après la soumission
+      closeModal(); 
     } catch (error) {
       console.error("Erreur lors de la soumission :", error);
     }
