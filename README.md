@@ -43,6 +43,11 @@ La stack qui a été utilisé est celle-ci : <br>
    GMAIL_PASSWORD=
    NEXT_PUBLIC_ROLE_ID_TUTOREE=
    NEXT_PUBLIC_ROLE_ID_OTHER=
+   MYSQL_ROOT_PASSWORD=
+   MYSQL_DATABASE=
+   MYSQL_USER=
+   MYSQL_PASSWORD=
+
    ```
 4. Mise en place de Prisma
    ```bash
