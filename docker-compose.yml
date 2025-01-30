@@ -21,7 +21,7 @@ services:
     restart: "unless-stopped"
     build:
       context: .
-      dockerfile: Dockerfile  # Spécifier le Dockerfile
+      dockerfile: Dockerfile
 
     depends_on:
       - cei_mysql

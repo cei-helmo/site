@@ -3,13 +3,13 @@ import { getToken } from "next-auth/jwt";
 import prisma from "@/src/utils/prisma/index";
 
 export async function POST(req: NextRequest) {
-  console.log("Received a POST request."); // LOG: Requête reçue
+  console.log("Received a POST request."); 
 
   try {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
     if (!token) {
-      console.error("Utilisateur non autorisé."); // LOG: Non autorisé
+      console.error("Utilisateur non autorisé."); 
       return NextResponse.json(
         { message: "Utilisateur non autorisé" },
         { status: 401 },
@@ -19,14 +19,13 @@ export async function POST(req: NextRequest) {
     const { title, description, date, imageUrl } = await req.json();
 
     if (!title || !description || !date) {
-      console.error("Données manquantes."); // LOG: Données incomplètes
+      console.error("Données manquantes."); 
       return NextResponse.json(
         { message: "Des informations sont manquantes dans la requête." },
         { status: 400 },
       );
     }
 
-    // Créer le nouvel événement
     const newEvent = await prisma.event.create({
       data: {
         title,
@@ -37,12 +36,11 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Récupérer tous les événements après la création
     const allEvents = await prisma.event.findMany();
 
     return NextResponse.json(allEvents, { status: 201 });
   } catch (error) {
-    console.error("Error creating event:", error); // LOG: Erreur serveur
+    console.error("Error creating event:", error); 
     return NextResponse.json(
       {
         message: "Erreur lors de la création de l'événement",

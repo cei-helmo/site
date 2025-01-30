@@ -3,7 +3,7 @@ import Link from "next/link";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signIn, getSession } from "next-auth/react"; // Import getSession
+import { signIn, getSession } from "next-auth/react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
