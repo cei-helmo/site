@@ -17,8 +17,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Prisma suck you should merge to https://orm.drizzle.team/ ;)
+# Prisma: Génération et mise à jour de la base de données
 RUN npx prisma generate
+RUN npx prisma db pull  # Si tu veux synchroniser ton schéma local avec la base de données
+RUN npx prisma migrate deploy  # Applique les migrations à la base de données
 
 RUN npm run build
 
@@ -33,13 +35,12 @@ RUN addgroup -S nodejs && adduser -S -D -H nextjs && mkdir .next && chown nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma  # Ajout de prisma pour l'accès à la configuration
 
 USER nextjs
 
 EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
-
-# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "wget", "-q0", "http://localhost:3000/health" ]
 
 CMD ["node", "server.js"]
