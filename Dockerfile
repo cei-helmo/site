@@ -20,6 +20,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Prisma: Génération et mise à jour de la base de données
+RUN until mysqladmin ping -h "cei_mysql" --silent;
 RUN npx prisma generate
 
 # Attente de MySQL et exécution des migrations Prisma
