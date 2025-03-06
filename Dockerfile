@@ -19,8 +19,8 @@ COPY . .
 
 # Prisma: Génération et mise à jour de la base de données
 RUN npx prisma generate
-RUN npx prisma db pull  # Si tu veux synchroniser ton schéma local avec la base de données
-RUN npx prisma migrate deploy  # Applique les migrations à la base de données
+RUN npx prisma migrate deploy
+RUN npx prisma db pull
 
 RUN npm run build
 
