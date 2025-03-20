@@ -3,10 +3,8 @@ name: cei-site
 on:
   push:
     branches:
-      - development
-  pull_request:
-    branches:
-      - development
+      - main
+
 
 jobs:
   lint:
