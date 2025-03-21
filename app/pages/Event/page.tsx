@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
-
+import jeu from '../../../public/JeuSociete.png'
 interface Event {
   id: number;
   title: string;
@@ -56,7 +56,7 @@ export default function Page() {
               >
                 <div className="w-full md:w-1/2 flex items-center justify-center">
                   <Image
-                    src="/JeuSocietewebp"
+                    src={jeu}
                     alt={`Image de l'événement ${event.title}`}
                     className="rounded-md"
                     width={450}
