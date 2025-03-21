@@ -42,10 +42,21 @@ export async function POST(req: Request) {
     const mailOptions = {
       from: process.env.GMAIL_USER,
       to: email,
-      subject: "Merci de vous être abonné(e) à notre newsletter !",
-      text: "Vous êtes maintenant inscrit(e) à notre newsletter. Restez à l’écoute pour nos mises à jour !",
-      html: `<p>Bonjour,</p><p>Merci de vous être abonné(e) à notre newsletter. Restez à l’écoute pour nos prochaines mises à jour !</p>`,
+      subject: "Merci de vous être abonné(e) à la newsletter du CEI !",
+      text: `Bonjour, 
+    
+    Merci de vous être abonné(e) à la newsletter du Cercle des Étudiants en Informatique ! Grâce à cette newsletter, vous serez tenu(e) au courant de nos événements, soirées et autres activités organisées par le CEI tout au long de l’année. 
+    
+    Restez connecté(e), et n’hésitez pas à nous suivre sur nos réseaux pour encore plus d’infos et d’interactions avec la communauté !
+    
+    À très bientôt,  
+    L’équipe du CEI`,
+      html: `<p>Bonjour,</p>
+             <p>Merci de vous être abonné(e) à la newsletter du <strong>Cercle des Étudiants en Informatique</strong> ! Grâce à cette newsletter, vous serez tenu(e) au courant de nos événements, soirées et autres activités organisées par le CEI tout au long de l’année.</p>
+             <p>Restez connecté(e), et n’hésitez pas à nous suivre sur nos réseaux pour encore plus d’infos et d’interactions avec la communauté !</p>
+             <p>À très bientôt,<br><strong>L’équipe du CEI</strong></p>`
     };
+    
 
     await transporter.sendMail(mailOptions);
 
