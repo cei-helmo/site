@@ -74,10 +74,10 @@ export default function Navbar() {
             <Link href="/">
               <div className="flex items-center cursor-pointer">
                 <div className="block dark:hidden">
-                  <Image src="/LogoBlack.svg" alt="Logo CEI Light" height={25} />
+                  <Image src="/LogoBlack.svg" alt="Logo CEI Light" height={25} width={75}/>
                 </div>
                 <div className="hidden dark:block">
-                  <Image src="/LogoWhite.svg" alt="Logo CEI Dark" height={25} />
+                  <Image src="/LogoWhite.svg" alt="Logo CEI Dark" height={25} width={75}/>
                 </div>
               </div>
             </Link>
