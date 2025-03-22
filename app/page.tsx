@@ -7,6 +7,9 @@ import { gsap } from "gsap";
 import Footer from "@/components/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EVS from '../public/EVS_color-logo_RGB.png'
+import ESET from '../public/eset.png'
+import tech from '../public/techNord.png'
 export default function Home() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -200,6 +203,19 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Sponsors */}
+        <div className="flex flex-col items-center text-center px-6 py-12 w-full">
+          <h1 className="font-bold text-3xl sm:text-4xl text-black dark:text-white mb-8">
+            Nos Sponsors
+          </h1>
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 md:gap-16">
+            <Image src={EVS} alt="EVS" width={400} height={100} className="max-w-[150px] sm:max-w-[400px] object-contain"/>
+            <Image src={ESET} alt="ESET" width={400} height={100} className="max-w-[150px] sm:max-w-[400px] object-contain"/>
+            <Image src={tech} alt="Tech" width={400} height={100} className="max-w-[150px] sm:max-w-[400px] object-contain"/>
+          </div>
+        </div>
+
         {/* Section Newsletter */}
         <div className="text-black dark:text-white w-full py-12">
         <ToastContainer position="bottom-right" />
@@ -232,7 +248,6 @@ export default function Home() {
             {message && <p className="mt-4 text-center">{message}</p>}
           </div>
         </div>
-
         <Footer />
       </div>
     </>
