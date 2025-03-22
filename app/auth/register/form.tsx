@@ -105,7 +105,7 @@ const Form = () => {
         className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow dark:bg-gray-800"
       >
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
-          Sign Up
+          Inscription
         </h2>
 
         <div>
