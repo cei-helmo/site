@@ -1,6 +1,6 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavbarComponents";
 import { GraduationCap, HelpCircle, Calendar, Users } from "lucide-react";
 
 const textData = [
