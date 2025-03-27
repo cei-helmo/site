@@ -2,6 +2,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import Navbar from "@/components/Navbar";
 import { GraduationCap, HelpCircle, Calendar, Users } from "lucide-react";
+import Head from "next/head";
 
 const textData = [
   {
@@ -143,6 +144,10 @@ export default function Tutorat() {
 
   return (
     <>
+      <Head>
+        <title>Programme de Tutorat - HELMo</title>
+        <meta name="description" content="Rejoignez le programme de tutorat de HELMo pour obtenir de l'aide ou aider d'autres étudiants. Inscrivez-vous dès maintenant !" />
+      </Head>
       <Navbar />
       <div className="bg-white dark:bg-gray-800 min-h-screen flex flex-col md:flex-row justify-center items-center p-4 gap-6">
         {/* Section gauche */}

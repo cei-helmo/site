@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="text-black dark:text-white w-full flex items-center justify-between p-6">
+    <footer className="text-black dark:text-white bg-white dark:bg-gray-800 w-full flex items-center justify-between p-6">
       <div className="text-center mt-4 text-sm">
         <p>
           &copy; 2024 Cercle des Étudiants en Informatique. Tous droits

@@ -1,10 +1,13 @@
 "use client";
+import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import jeu from '../../../public/JeuSociete.png'
+import Footer from "@/components/Footer";
+
 interface Event {
   id: number;
   title: string;
@@ -34,6 +37,10 @@ export default function Page() {
 
   return (
     <>
+      <Head>
+        <title>Événements - Cercle des Étudiants en Informatique</title>
+        <meta name="description" content="Découvrez les derniers événements organisés par le Cercle des Étudiants en Informatique de HELMo. Rejoignez-nous pour participer !" />
+      </Head>
       <Navbar />
       <div className="bg-white dark:bg-gray-800 min-h-screen flex flex-col items-center">
         <div className="text-center mt-16 mb-12">
@@ -78,22 +85,7 @@ export default function Page() {
           )}
         </div>
       </div>
-      <footer className="bg-white dark:bg-gray-800 text-black dark:text-white w-full flex items-center justify-between p-6">
-        <div className="text-center text-sm">
-          <p>
-            &copy; 2024 Cercle des Étudiants en Informatique. Tous droits
-            réservés.
-          </p>
-        </div>
-        <div className="flex space-x-8">
-          <Link href="https://www.facebook.com/CEI.HELMo" target="_blank">
-            <FaFacebook className="w-6 h-6 text-blue-600 hover:text-blue-800 transition duration-200" />
-          </Link>
-          <Link href="https://www.instagram.com/cei.helmo/" target="_blank">
-            <FaInstagram className="w-6 h-6 text-pink-600 hover:text-pink-800 transition duration-200" />
-          </Link>
-        </div>
-      </footer>
+      <Footer/>
     </>
   );
 }

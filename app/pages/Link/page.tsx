@@ -2,6 +2,8 @@ import Navbar from '@/components/Navbar';
 import { FaFacebook, FaInstagram, FaDiscord, FaGlobe } from 'react-icons/fa';
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
+import Footer from '@/components/Footer';
 
 const socialLinks = [
   { name: 'Facebook', url: 'https://www.facebook.com/CEI.HELMo', icon: <FaFacebook /> },
@@ -13,6 +15,11 @@ const socialLinks = [
 export default function SocialPage() {
   return (
     <>
+      <Head>
+        <title>Nos réseaux - CEI HELMo</title>
+        <meta name="description" content="Suivez le Cercle des Étudiants en Informatique de HELMo sur Facebook, Instagram et Discord. Rejoignez notre communauté et restez informé des événements !" />
+      </Head>
+
       <Navbar />
       <div className="bg-white dark:bg-gray-800 min-h-screen flex flex-col justify-center items-center p-4">
         <h1 className="text-2xl font-bold text-black dark:text-white mb-6">
@@ -35,6 +42,7 @@ export default function SocialPage() {
           ))}
         </div>
       </div>
+      <Footer/>
     </>
   );
 }
