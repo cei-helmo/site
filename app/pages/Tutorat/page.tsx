@@ -31,7 +31,7 @@ const textData = [
 ];
 
 export default function Tutorat() {
-  const [activeTab, setActiveTab] = useState<"tutor" | "tutoree">("tutor");
+  const [activeTab, setActiveTab] = useState<"tutor" | "tutoree">("tutoree");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -160,7 +160,7 @@ export default function Tutorat() {
             {textData.map((item, index) => (
               <li
                 key={index}
-                className="flex items-start space-x-4 bg-white dark:bg-gray-500 border-2 hover:scale-105 transition border-gray-400 p-4 shadow-lg rounded-lg dark:shadow-white dark:shadow-md"
+                className="flex items-start space-x-4 bg-white dark:bg-gray-500 border-2 hover:scale-105 hover:cursor-default transition border-gray-400 p-4 shadow-lg rounded-lg "
               >
                 <div>{item.icon}</div>
                 <div>
