@@ -59,6 +59,9 @@ export default function NavbarComponents() {
             <Link href="/pages/Event" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
               Événements
             </Link>
+            <Link href="/pages/Link" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
+              Liens
+            </Link>
             {session && (
               <Link href="/pages/Dashboard/admin" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
                 Dashboard
@@ -104,10 +107,14 @@ export default function NavbarComponents() {
           <Link href="/pages/Event" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
             Événements
           </Link>
+          <Link href="/pages/Link" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
+              Liens
+            </Link>
           {session && (
             <Link href="/dashboard" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
               Dashboard
             </Link>
+            
           )}
           <Link href="/auth/register" className="text-lg font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400">
             Inscription
