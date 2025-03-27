@@ -7,7 +7,7 @@ const socialLinks = [
   { name: 'Facebook', url: 'https://www.facebook.com/CEI.HELMo', icon: <FaFacebook /> },
   { name: 'Instagram', url: 'https://www.instagram.com/cei.helmo/', icon: <FaInstagram /> },
   { name: 'Discord', url: 'https://discord.gg/xe6xuwrmhA', icon: <FaDiscord /> },
-  { name: 'Site Web', url: 'https://cei.helmo.be', icon: <FaGlobe /> },
+  { name: 'Nos Pulls', url: 'https://forms.office.com/pages/responsepage.aspx?id=uNXHDcYlskWKCwRkYf12IC43mEjEaU5Bj_w7WasDl89UOVIwOFJJNkJGU0NXQkxCM1pORzBZRjFDOS4u&route=shorturl', icon: <FaGlobe /> },
 ];
 
 export default function SocialPage() {
