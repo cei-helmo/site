@@ -7,6 +7,7 @@ import GestionUsers from "./Components/GestionUsers";
 import GestionEvent from "./Components/GestionEvent";
 import Settings from "./Components/Settings";
 import Event_User from "./user/components/Event_User";
+import Calendrier from "./Components/Calendrier";
 
 interface DashboardContentProps {
   children?: ReactNode;
@@ -50,6 +51,8 @@ const renderContent = (activePage: string) => {
       return <div className="text-black dark:text-white">Admin Panel</div>;
     case "event_user":
       return <Event_User />;
+    case "calendrier":
+        return <Calendrier/>
     /* case "settings":
       return <Settings />; */
     default:

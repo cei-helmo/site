@@ -10,6 +10,7 @@ import {
   Sun,
   Tickets,
   PartyPopper,
+  Calendar,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -83,12 +84,12 @@ const Sidebar = ({
                   onClick={() => handleSetActivePage("users")}
                   expanded={isExpanded}
                 />
-                {/* <SidebarItem
-                  icon={<Settings size={24} />}
-                  text="Paramètres"
-                  onClick={() => handleSetActivePage("settings")}
+                <SidebarItem
+                  icon={<Calendar size={24} />}
+                  text="Calendrier"
+                  onClick={() => handleSetActivePage("calendrier")}
                   expanded={isExpanded}
-                /> */}
+                />
               </>
             )}
 

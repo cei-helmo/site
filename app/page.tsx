@@ -218,7 +218,7 @@ export default function Home() {
 
         {/* Section Newsletter */}
         <div className="text-black dark:text-white w-full py-12">
-        <ToastContainer position="bottom-right" />
+          <ToastContainer position="bottom-right" />
           <div className="flex flex-col items-center px-4">
             <h3 className="text-3xl font-bold mb-4">
               Abonnez-vous à notre newsletter
