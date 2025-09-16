@@ -28,7 +28,7 @@ const textData = [
     title: "Soutien par les pairs",
     description:
       "Connectez-vous avec des étudiants qui ont suivi les mêmes cours.",
-  },
+  }
 ];
 
 export default function Tutorat() {
@@ -41,91 +41,88 @@ export default function Tutorat() {
     departement: "",
   });
 
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+    details: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
+    // Clear error when user starts typing
+    if (formErrors[id as keyof typeof formErrors]) {
+      setFormErrors({ ...formErrors, [id]: "" });
+    }
   };
 
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
+    // Clear error when user starts typing
+    if (formErrors[id as keyof typeof formErrors]) {
+      setFormErrors({ ...formErrors, [id]: "" });
+    }
+  };
+
+  const validateForm = () => {
+    const errors = { name: "", email: "", details: "" };
+    let isValid = true;
+
+    if (!formData.name.trim()) {
+      errors.name = "Le nom est obligatoire";
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "L'email est obligatoire";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Format d'email invalide";
+      isValid = false;
+    }
+
+    if (!formData.details.trim()) {
+      errors.details = "Les détails sont obligatoires";
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
   };
 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const webhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL;
-
-    const roleId =
-      activeTab === "tutoree"
-        ? process.env.NEXT_PUBLIC_ROLE_ID_TUTOREE
-        : process.env.NEXT_PUBLIC_ROLE_ID_OTHER;
-  
-    if (!webhookUrl) {
-      console.error(
-        "L'URL du webhook est manquante. Vérifiez vos variables d'environnement.",
-      );
-      alert("Erreur de configuration : L'URL du webhook est absente.");
+    
+    if (isSubmitting) return;
+    
+    // Validate form
+    if (!validateForm()) {
       return;
     }
 
-    const payload = {
-      content: `Nouvelle inscription : <@&${roleId}>`,
-      embeds: [
-        {
-          title: "Détails de l'inscription",
-          color: activeTab === "tutoree" ? 0x3498db : 0x2ecc71,
-          author: { name: "Programme de Tutorat" },
-          fields: [
-            {
-              name: "Nom",
-              value: `${formData.name || "Non fourni"}\n`,
-              inline: false,
-            },
-            {
-              name: "Email",
-              value: `${formData.email || "Non fourni"}\n`,
-              inline: false,
-            },
-            {
-              name: "Discord",
-              value: `${formData.discord || "Non fourni"}\n`,
-              inline: false,
-            },
-            {
-              name: "Détails",
-              value: `${formData.details || "Non fourni"}\n`,
-              inline: false,
-            },
-            {
-              name: "Département",
-              value: `${formData.departement || "Non fourni"}\n`,
-              inline: false,
-            },
-          ],
-          description:
-            "Voici les détails de l'inscription à notre programme de tutorat.\n\nNous vous remercions de votre inscription et nous vous contacterons bientôt pour vous fournir des informations supplémentaires.",
-          footer: {
-            text: "Tutoring Program - HELMo",
-            icon_url: "https://www.example.com/footer-logowebp",
-          },
-          timestamp: new Date(),
-        },
-      ],
-    };
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      const response = await fetch('/api/tutorat/webhook', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          activeTab,
+        }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+        throw new Error(result.error || 'Erreur lors de l\'envoi');
       }
 
       alert("Inscription envoyée avec succès !");
@@ -135,12 +132,17 @@ export default function Tutorat() {
         discord: "",
         details: "",
         departement: "",
-      }); 
+      });
     } catch (error) {
-      console.error("Erreur lors de l'envoi des données au webhook :", error);
-      alert("Une erreur s'est produite. Veuillez réessayer.");
+      console.error("Erreur lors de l'envoi des données :", error);
+      alert(error instanceof Error ? error.message : "Une erreur s'est produite. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  // Remove the old webhook logic - it will be moved to API route
+
 
   return (
     <>
@@ -227,9 +229,14 @@ export default function Tutorat() {
                   id="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                  className={`mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 ${
+                    formErrors.name ? 'border-red-500' : ''
+                  }`}
                   placeholder="Entrez votre nom complet"
                 />
+                {formErrors.name && (
+                  <p className="mt-1 text-sm text-red-600">{formErrors.name}</p>
+                )}
               </div>
               <div>
                 <label
@@ -243,9 +250,14 @@ export default function Tutorat() {
                   id="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                  className={`mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 ${
+                    formErrors.email ? 'border-red-500' : ''
+                  }`}
                   placeholder="votre.nom@student.helmo.be"
                 />
+                {formErrors.email && (
+                  <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
+                )}
               </div>
               <div>
                 <label
@@ -274,9 +286,14 @@ export default function Tutorat() {
                   id="details"
                   value={formData.details}
                   onChange={handleTextAreaChange}
-                  className="mt-1 h-24 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                  className={`mt-1 h-24 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 ${
+                    formErrors.details ? 'border-red-500' : ''
+                  }`}
                   placeholder="Détails"
                 />
+                {formErrors.details && (
+                  <p className="mt-1 text-sm text-red-600">{formErrors.details}</p>
+                )}
               </div>
 
               <div>
@@ -302,11 +319,17 @@ export default function Tutorat() {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium transition-all text-white bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                disabled={isSubmitting}
+                className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium transition-all text-white bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
-                {activeTab === "tutoree"
+                {isSubmitting 
+                  ? "Envoi en cours..."
+                  : activeTab === "tutoree"
                   ? "S'inscrire comme tutoré"
-                  : "S'inscrire comme tuteur"}
+                  : "S'inscrire comme tuteur"
+                }
               </button>
             </form>
             <p className="mt-4 text-xs text-gray-500 text-center">

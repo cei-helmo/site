@@ -47,19 +47,30 @@ Le site du C.E.I (Club Étudiant en Informatique) est une plateforme web dévelo
 3. Configurer les variables d'environnement :
    Créer un fichier `.env` à la racine du projet avec les variables suivantes :
    ```
-   NEXT_PUBLIC_DISCORD_WEBHOOK_URL=
+   # Database
    DATABASE_URL="mysql://user:password@localhost:3306/cei?schema=public"
+   
+   # NextAuth
    NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-secret-key-here
+   
+   # API
    NEXT_PUBLIC_API_URL=http://localhost:3000
-   NEXTAUTH_SECRET=
-   GMAIL_USER=
-   GMAIL_PASSWORD=
-   NEXT_PUBLIC_ROLE_ID_TUTOREE=
-   NEXT_PUBLIC_ROLE_ID_OTHER=
-   MYSQL_ROOT_PASSWORD=
-   MYSQL_DATABASE=
-   MYSQL_USER=
-   MYSQL_PASSWORD=
+   
+   # Email (Gmail)
+   GMAIL_USER=your-email@gmail.com
+   GMAIL_PASSWORD=your-app-password
+   
+   # Discord Webhook (Server-side only - more secure)
+   DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-url
+   DISCORD_ROLE_ID_TUTOREE=your-tutoree-role-id
+   DISCORD_ROLE_ID_OTHER=your-tutor-role-id
+   
+   # MySQL Docker (if using Docker)
+   MYSQL_ROOT_PASSWORD=your-root-password
+   MYSQL_DATABASE=cei
+   MYSQL_USER=your-mysql-user
+   MYSQL_PASSWORD=your-mysql-password
    ```
 
 4. Initialiser la base de données avec Prisma :
