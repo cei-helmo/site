@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../src/utils/prisma";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const token = searchParams.get("token");
+    const url = new URL(req.url);
+    const token = url.searchParams.get("token");
 
     if (!token) {
       return NextResponse.json(

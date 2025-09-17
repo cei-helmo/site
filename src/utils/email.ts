@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 // Configuration du transporteur SMTP
 const createTransporter = () => {
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: process.env.SMTP_SECURE === 'true', // true pour 465, false pour autres ports
