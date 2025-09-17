@@ -133,12 +133,12 @@ export default function SignIn() {
 
         <div className="flex justify-between mt-4">
           <div className="text-sm">
-            {/* <Link
-              href="/auth/emailForgotPassword"
+            <Link
+              href="/auth/forgot-password"
               className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
               Mot de passe oublié
-            </Link> */}
+            </Link>
           </div>
           <div className="text-sm">
             <Link
