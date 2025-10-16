@@ -216,38 +216,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Section Newsletter */}
-        <div className="text-black dark:text-white w-full py-12">
-        <ToastContainer position="bottom-right" />
-          <div className="flex flex-col items-center px-4">
-            <h3 className="text-3xl font-bold mb-4">
-              Abonnez-vous à notre newsletter
-            </h3>
-            <p className="text-lg mb-6">
-              Restez à jour avec nos événements et nos activités.
-            </p>
-            <form
-              className="flex items-center w-full max-w-sm"
-              onSubmit={handleSubmit}
-            >
-              <input
-                type="email"
-                placeholder="Votre adresse email"
-                className="px-4 py-2 rounded-l-lg text-black w-full focus:outline-none border-solid border dark:border-none"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600"
-              >
-                S&#39;abonner
-              </button>
-            </form>
-            {message && <p className="mt-4 text-center">{message}</p>}
-          </div>
-        </div>
+       
         <Footer />
       </div>
     </>
