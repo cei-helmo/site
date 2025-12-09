@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
     const roleIdTutoree = process.env.DISCORD_ROLE_ID_TUTOREE;
     const roleIdOther = process.env.DISCORD_ROLE_ID_OTHER;
+    const roleIdParrains = process.env.DISCORD_ROLE_ID_PARRAINS;
 
     if (!webhookUrl) {
       console.error("DISCORD_WEBHOOK_URL is not configured");
@@ -35,7 +36,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const roleId = activeTab === "tutoree" ? roleIdTutoree : roleIdOther;
+    const roleId =
+      activeTab === "tutoree"
+        ? roleIdParrains || roleIdTutoree
+        : roleIdOther;
 
     if (!roleId) {
       console.error(`Role ID for ${activeTab} is not configured`);
@@ -45,9 +49,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (activeTab === "tutoree" && !roleIdParrains) {
+      console.warn(
+        "DISCORD_ROLE_ID_PARRAINS absent, fallback sur DISCORD_ROLE_ID_TUTOREE"
+      );
+    }
+
     // Create Discord payload
     const payload = {
-      content: `Nouvelle inscription : <@&${roleId}>`,
+      content:
+        activeTab === "tutoree"
+          ? `<@&${roleId}> Un nouvel élève (${name}) a besoin d'aide. Pseudo Discord : **${
+              discord || "Non fourni"
+            }** - merci de le DM si vous voulez l'aider !`
+          : `Nouvelle inscription : <@&${roleId}>`,
       embeds: [
         {
           title: "Détails de l'inscription",
@@ -86,10 +101,11 @@ export async function POST(req: NextRequest) {
             },
           ],
           description:
-            "Voici les détails de l'inscription à notre programme de tutorat.\n\nNous vous remercions de votre inscription et nous vous contacterons bientôt pour vous fournir des informations supplémentaires.",
+            activeTab === "tutoree"
+              ? "Un nouveau tutoré vient d'arriver. Merci aux parrains disponibles de prendre contact."
+              : "Voici les détails de l'inscription à notre programme de tutorat.\n\nNous vous remercions de votre inscription et nous vous contacterons bientôt pour vous fournir des informations supplémentaires.",
           footer: {
             text: "Programme de Tutorat - CEI HELMo",
-            icon_url: "https://cdn.discordapp.com/icons/your-server-id/your-icon.png", // Replace with actual Discord server icon
           },
           timestamp: new Date().toISOString(),
         },
