@@ -1,344 +1,321 @@
 "use client";
-import { useState, ChangeEvent, FormEvent } from "react";
-import Navbar from "@/components/Navbar";
-import { GraduationCap, HelpCircle, Calendar, Users } from "lucide-react";
-import Head from "next/head";
 
-const textData = [
-  {
-    icon: <GraduationCap className="w-8 h-8 text-black dark:text-white" />,
-    title: "Orientation première année",
-    description:
-      "Obtenez de l'aide pour vos premiers pas dans l'enseignement supérieur.",
-  },
-  {
-    icon: <Calendar className="w-8 h-8 text-black dark:text-white" />,
-    title: "Planification de l'emploi du temps",
-    description:
-      "Apprenez à gérer efficacement vos cours et votre temps d'étude.",
-  },
-  {
-    icon: <HelpCircle className="w-8 h-8 text-black dark:text-white" />,
-    title: "Clarification des concepts",
-    description:
-      "Obtenez de l'aide pour comprendre les concepts difficiles des cours.",
-  },
-  {
-    icon: <Users className="w-8 h-8 text-black dark:text-white" />,
-    title: "Soutien par les pairs",
-    description:
-      "Connectez-vous avec des étudiants qui ont suivi les mêmes cours.",
-  }
-];
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Head from "next/head";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+type Tab = "tutoree" | "tutor";
+type ContactMethod = "MAIL" | "TEAMS" | "DISCORD";
+type Cursus = "DEV_APPS" | "SEC_SY" | "AI";
+
+const COURSE_OPTIONS: Record<Cursus, string[]> = {
+  DEV_APPS: [
+    "Algorithmique",
+    "Programmation procédurale",
+    "Programmation orientée objet",
+    "Bases de données",
+    "Systèmes d'exploitation",
+    "Réseaux",
+    "Mathématiques discrètes",
+  ],
+  SEC_SY: [
+    "Algorithmique",
+    "Sécurité informatique (intro)",
+    "Programmation",
+    "Bases de données",
+    "Réseaux",
+    "Mathématiques",
+  ],
+  AI: [
+    "Algorithmique",
+    "Programmation",
+    "Bases de données",
+    "Réseaux",
+    "Mathématiques",
+    "Probabilités / Statistiques",
+  ],
+};
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  contactMethod: "MAIL" as ContactMethod,
+  contactHandle: "",
+  cursus: "" as Cursus | "",
+  courses: [] as string[],
+  details: "",
+};
 
 export default function Tutorat() {
-  const [activeTab, setActiveTab] = useState<"tutor" | "tutoree">("tutoree");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    discord: "",
-    details: "",
-    departement: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({
-    name: "",
-    email: "",
-    details: "",
-  });
+  const [activeTab, setActiveTab] = useState<Tab>("tutoree");
+  const [formData, setFormData] = useState(initialState);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-    // Clear error when user starts typing
-    if (formErrors[id as keyof typeof formErrors]) {
-      setFormErrors({ ...formErrors, [id]: "" });
-    }
+  const updateField = (field: keyof typeof formData, value: string | string[]) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-    // Clear error when user starts typing
-    if (formErrors[id as keyof typeof formErrors]) {
-      setFormErrors({ ...formErrors, [id]: "" });
-    }
+  const toggleCourse = (course: string) => {
+    setFormData((prev) => {
+      const exists = prev.courses.includes(course);
+      return {
+        ...prev,
+        courses: exists ? prev.courses.filter((c) => c !== course) : [...prev.courses, course],
+      };
+    });
   };
 
-  const validateForm = () => {
-    const errors = { name: "", email: "", details: "" };
-    let isValid = true;
-
-    if (!formData.name.trim()) {
-      errors.name = "Le nom est obligatoire";
-      isValid = false;
+  const validate = () => {
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
+      toast.error("Prénom et nom sont requis.");
+      return false;
     }
-
-    if (!formData.email.trim()) {
-      errors.email = "L'email est obligatoire";
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = "Format d'email invalide";
-      isValid = false;
+    if (!formData.email.trim() || !/.*@([^.]+\.)?(helmo|hepl)\.be$/i.test(formData.email)) {
+      toast.error("Email étudiant requis (helmo.be ou hepl.be).");
+      return false;
     }
-
-    if (!formData.details.trim()) {
-      errors.details = "Les détails sont obligatoires";
-      isValid = false;
+    if (formData.contactMethod === "DISCORD" && !formData.contactHandle.trim()) {
+      toast.error("Pseudo Discord requis si Discord est choisi.");
+      return false;
     }
-
-    setFormErrors(errors);
-    return isValid;
+    if (!formData.cursus) {
+      toast.error("Sélectionnez un cursus.");
+      return false;
+    }
+    if (formData.courses.length === 0) {
+      toast.error("Choisissez au moins un cours.");
+      return false;
+    }
+    return true;
   };
 
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (isSubmitting) return;
-    
-    // Validate form
-    if (!validateForm()) {
-      return;
-    }
+    if (!validate()) return;
 
     setIsSubmitting(true);
-
     try {
-      const response = await fetch('/api/tutorat/webhook', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          activeTab,
-        }),
+      const endpoint =
+        activeTab === "tutoree" ? "/api/tutorat/request" : "/api/tutorat/offer";
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Erreur lors de l\'envoi');
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur lors de l'envoi");
       }
-
-      alert("Inscription envoyée avec succès !");
-      setFormData({
-        name: "",
-        email: "",
-        discord: "",
-        details: "",
-        departement: "",
-      });
+      toast.success(
+        activeTab === "tutoree"
+          ? "Demande envoyée. Vous recevrez un mail quand un tuteur sera confirmé."
+          : "Offre enregistrée. Nous vous contacterons quand un étudiant correspondra."
+      );
+      setFormData(initialState);
     } catch (error) {
-      console.error("Erreur lors de l'envoi des données :", error);
-      alert(error instanceof Error ? error.message : "Une erreur s'est produite. Veuillez réessayer.");
+      console.error(error);
+      toast.error(error instanceof Error ? error.message : "Erreur interne");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Remove the old webhook logic - it will be moved to API route
-
+  const coursesForCursus = formData.cursus ? COURSE_OPTIONS[formData.cursus] : [];
 
   return (
     <>
       <Head>
         <title>Programme de Tutorat - HELMo</title>
-        <meta name="description" content="Rejoignez le programme de tutorat de HELMo pour obtenir de l'aide ou aider d'autres étudiants. Inscrivez-vous dès maintenant !" />
+        <meta
+          name="description"
+          content="Rejoignez le programme de tutorat de HELMo pour obtenir de l'aide ou aider d'autres étudiants."
+        />
       </Head>
       <Navbar />
-      <div className="bg-white dark:bg-gray-800 min-h-screen flex flex-col md:flex-row justify-center items-center p-4 gap-6">
-        {/* Section gauche */}
-        <div className="left w-full md:w-1/2 p-4">
-          <div>
-            <h1 className="font-bold text-3xl md:text-5xl  text-black dark:text-white text-center md:text-left">
-              Programme de Tutorat
-            </h1>
-            <p className="text-lg md:text-xl mt-3 text-gray-400 text-center md:text-left">
-              Obtenez de l&#39;aide d&#39;étudiants expérimentés ou devenez
-              mentor vous-même. Rejoignez notre communauté d&#39;apprenants!
-            </p>
-          </div>
-          <ul className="mt-6 space-y-6 cursor-pointer">
-            {textData.map((item, index) => (
-              <li
-                key={index}
-                className="flex items-start space-x-4 bg-white dark:bg-gray-500 border-2 hover:scale-105 hover:cursor-default transition border-gray-400 p-4 shadow-lg rounded-lg "
-              >
-                <div>{item.icon}</div>
-                <div>
-                  <h3 className="text-lg font-semibold text-black dark:text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-black dark:text-white">
-                    {item.description}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="bg-white dark:bg-gray-800 min-h-screen flex flex-col items-center p-4">
+        <div className="max-w-5xl w-full">
+          <h1 className="font-bold text-3xl md:text-4xl text-black dark:text-white text-center mt-10">
+            Programme de Tutorat
+          </h1>
+          <p className="text-center text-gray-500 dark:text-gray-300 mt-2">
+            Inscrivez-vous comme tutoré ou comme tuteur. Nous faisons le matching automatiquement
+            et vous envoyons les infos par email cei.helmo.be.
+          </p>
 
-        {/* Section droite */}
-        <div className="right w-full md:w-2/5 bg-white dark:bg-gray-700 border-2 border-gray-400 p-4 rounded-md">
-          <div>
-            <h1 className="font-bold text-xl text-black dark:text-white text-center md:text-left">
-              Inscrivez-vous maintenant!
-            </h1>
-            <p className="text-md mt-3 text-gray-400 text-center md:text-left">
-              Choisissez votre rôle dans le programme de Tutorat
-            </p>
+          <div className="flex flex-col sm:flex-row mt-8 bg-gray-200 dark:bg-gray-700 rounded-md overflow-hidden">
+            <button
+              className={`flex-1 py-3 font-semibold ${
+                activeTab === "tutoree"
+                  ? "bg-white dark:bg-gray-800 text-black dark:text-white"
+                  : "text-gray-600 dark:text-gray-300"
+              }`}
+              onClick={() => setActiveTab("tutoree")}
+            >
+              J'ai besoin d'aide (B1)
+            </button>
+            <button
+              className={`flex-1 py-3 font-semibold ${
+                activeTab === "tutor"
+                  ? "bg-white dark:bg-gray-800 text-black dark:text-white"
+                  : "text-gray-600 dark:text-gray-300"
+              }`}
+              onClick={() => setActiveTab("tutor")}
+            >
+              Je veux aider (B2/B3)
+            </button>
           </div>
-          <div className="p-6">
-            <div className="flex flex-col sm:flex-row mb-4 space-y-2 sm:space-y-0 sm:space-x-2 bg-gray-200 border-2 border-gray-400 rounded-md">
-              <button
-                className={`flex-1 py-2 px-4 text-center rounded-md ${
-                  activeTab === "tutoree"
-                    ? "bg-white text-black dark:text-black"
-                    : "bg-muted text-gray-400"
-                }`}
-                onClick={() => setActiveTab("tutoree")}
-              >
-                J&#39;ai besoin d&#39;aide (B1)
-              </button>
-              <button
-                className={`flex-1 py-2 px-4 text-center rounded-md ${
-                  activeTab === "tutor"
-                    ? "bg-white text-black dark:text-black"
-                    : "bg-muted text-gray-400"
-                }`}
-                onClick={() => setActiveTab("tutor")}
-              >
-                Je veux aider (B2/B3)
-              </button>
+
+          <form
+            onSubmit={handleSubmit}
+            className="mt-6 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-6 space-y-4"
+          >
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-black dark:text-white">
+                  Prénom
+                </label>
+                <input
+                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                  value={formData.firstName}
+                  onChange={(e) => updateField("firstName", e.target.value)}
+                  placeholder="Prénom"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-black dark:text-white">
+                  Nom
+                </label>
+                <input
+                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                  value={formData.lastName}
+                  onChange={(e) => updateField("lastName", e.target.value)}
+                  placeholder="Nom"
+                />
+              </div>
             </div>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-black dark:text-white"
-                >
-                  Votre nom
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className={`mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 ${
-                    formErrors.name ? 'border-red-500' : ''
-                  }`}
-                  placeholder="Entrez votre nom complet"
-                />
-                {formErrors.name && (
-                  <p className="mt-1 text-sm text-red-600">{formErrors.name}</p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-black dark:text-white"
-                >
-                  Votre adresse e-mail HELMo
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={`mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 ${
-                    formErrors.email ? 'border-red-500' : ''
-                  }`}
-                  placeholder="votre.nom@student.helmo.be"
-                />
-                {formErrors.email && (
-                  <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="discord"
-                  className="block text-sm font-medium text-black dark:text-white"
-                >
-                  Nom d&#39;utilisateur Discord (optionnel)
-                </label>
-                <input
-                  type="text"
-                  id="discord"
-                  value={formData.discord}
-                  onChange={handleInputChange}
-                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                  placeholder="utilisateur#0000"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="details"
-                  className="block text-sm font-medium text-black dark:text-white"
-                >
-                  Détails sur la demande
-                </label>
-                <textarea
-                  id="details"
-                  value={formData.details}
-                  onChange={handleTextAreaChange}
-                  className={`mt-1 h-24 p-2 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 ${
-                    formErrors.details ? 'border-red-500' : ''
-                  }`}
-                  placeholder="Détails"
-                />
-                {formErrors.details && (
-                  <p className="mt-1 text-sm text-red-600">{formErrors.details}</p>
-                )}
-              </div>
 
+            <div>
+              <label className="block text-sm font-medium text-black dark:text-white">
+                Adresse HELMo
+              </label>
+              <input
+                className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                value={formData.email}
+                onChange={(e) => updateField("email", e.target.value)}
+                placeholder="prenom.nom@student.helmo.be"
+              />
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4">
               <div>
-                <label
-                  htmlFor="departement"
-                  className="block text-sm font-medium text-black dark:text-white"
-                >
-                  Votre département
+                <label className="block text-sm font-medium text-black dark:text-white">
+                  Mode de contact
                 </label>
                 <select
-                  id="departement"
-                  value={formData.departement}
-                  onChange={handleInputChange}
-                  className="mt-1 h-10 p-2 block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                  value={formData.contactMethod}
+                  onChange={(e) => updateField("contactMethod", e.target.value as ContactMethod)}
                 >
-                  <option value="">Sélectionnez votre département</option>
-                  <option value="apps">
-                    Développement d&#39;applications / programmation
-                  </option>
-                  <option value="networks">Cybersécurité</option>
-                  <option value="systems">Intélligence Artificielle</option>
+                  <option value="MAIL">Mail</option>
+                  <option value="TEAMS">Teams</option>
+                  <option value="DISCORD">Discord</option>
                 </select>
               </div>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium transition-all text-white bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                {isSubmitting 
-                  ? "Envoi en cours..."
-                  : activeTab === "tutoree"
-                  ? "S'inscrire comme tutoré"
-                  : "S'inscrire comme tuteur"
-                }
-              </button>
-            </form>
-            <p className="mt-4 text-xs text-gray-500 text-center">
-              Vos données ne seront pas partagées et seront uniquement utilisées
-              pour le programme de Tutorat
+              {formData.contactMethod === "DISCORD" && (
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-black dark:text-white">
+                    Pseudo Discord
+                  </label>
+                  <input
+                    className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                    value={formData.contactHandle}
+                    onChange={(e) => updateField("contactHandle", e.target.value)}
+                    placeholder="utilisateur#0000 ou ID"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-black dark:text-white">
+                  Cursus
+                </label>
+                <select
+                  className="mt-1 h-10 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                  value={formData.cursus}
+                  onChange={(e) => {
+                    const next = e.target.value as Cursus;
+                    updateField("cursus", next);
+                    updateField("courses", []);
+                  }}
+                >
+                  <option value="">Sélectionnez votre cursus</option>
+                  <option value="DEV_APPS">Dev Apps</option>
+                  <option value="SEC_SY">Secsy</option>
+                  <option value="AI">AI</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-black dark:text-white">
+                  Cours (B1)
+                </label>
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {coursesForCursus.map((course) => (
+                    <label
+                      key={course}
+                      className="flex items-center space-x-2 text-sm text-black dark:text-white"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={formData.courses.includes(course)}
+                        onChange={() => toggleCourse(course)}
+                      />
+                      <span>{course}</span>
+                    </label>
+                  ))}
+                  {coursesForCursus.length === 0 && (
+                    <p className="text-sm text-gray-500">Choisissez un cursus pour voir les cours.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-black dark:text-white">
+                Détails supplémentaires
+              </label>
+              <textarea
+                className="mt-1 h-24 p-2 text-black block w-full rounded-md border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800"
+                value={formData.details}
+                onChange={(e) => updateField("details", e.target.value)}
+                placeholder="Précisez les chapitres, les dispos, etc."
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold disabled:opacity-60"
+            >
+              {isSubmitting
+                ? "Envoi en cours..."
+                : activeTab === "tutoree"
+                ? "Envoyer une demande"
+                : "Proposer mon aide"}
+            </button>
+            <p className="text-xs text-gray-500 text-center">
+              Vos données ne sont utilisées que pour le programme de tutorat CEI.
             </p>
-          </div>
+          </form>
         </div>
       </div>
+      <ToastContainer position="top-center" />
     </>
   );
 }

@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, email, discord, details, departement, activeTab } = body;
 
-    // Validate required fields
+    // Champs obligatoires
     if (!name || !email || !details) {
       return NextResponse.json(
         { error: "Les champs nom, email et détails sont obligatoires" },
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate email format
+    // Email basique
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -22,11 +22,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get environment variables (server-side only)
+    // Configuration Discord stricte (pas de valeurs par défaut silencieuses)
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
     const roleIdTutoree = process.env.DISCORD_ROLE_ID_TUTOREE;
     const roleIdOther = process.env.DISCORD_ROLE_ID_OTHER;
     const roleIdParrains = process.env.DISCORD_ROLE_ID_PARRAINS;
+
+    if (!webhookUrl) {
+      console.error("DISCORD_WEBHOOK_URL is not configured");
+      return NextResponse.json(
+        { error: "Configuration Discord manquante" },
+        { status: 500 }
+      );
+    }
 
     if (!webhookUrl) {
       console.error("DISCORD_WEBHOOK_URL is not configured");
@@ -55,7 +63,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create Discord payload
+    // Payload Discord : mentionne le rôle et met en évidence le pseudo
     const payload = {
       content:
         activeTab === "tutoree"

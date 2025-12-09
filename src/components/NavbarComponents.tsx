@@ -12,15 +12,18 @@ export default function NavbarComponents() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Active/désactive le thème sombre en appliquant l'état à la racine
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark", isDarkMode);
+    const next = !isDarkMode;
+    setIsDarkMode(next);
+    document.documentElement.classList.toggle("dark", next);
   };
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    setIsDarkMode(storedTheme === "dark");
-    document.documentElement.classList.toggle("dark", storedTheme === "dark");
+    const shouldDark = storedTheme === "dark";
+    setIsDarkMode(shouldDark);
+    document.documentElement.classList.toggle("dark", shouldDark);
   }, []);
 
   useEffect(() => {

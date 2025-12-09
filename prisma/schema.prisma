@@ -38,7 +38,95 @@ model Newsletter {
   email String @unique
 }
 
+model TutorRequest {
+  id            Int           @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String
+  contactMethod ContactMethod
+  contactHandle String?
+  cursus        Cursus
+  courses       Json
+  details       String?
+  status        RequestStatus @default(EN_ATTENTE)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  match         Match[]
+
+  @@index([cursus, status])
+  @@index([email])
+}
+
+model TutorOffer {
+  id            Int           @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String
+  contactMethod ContactMethod
+  contactHandle String?
+  cursus        Cursus
+  courses       Json
+  details       String?
+  status        OfferStatus   @default(DISPO)
+  assignments   Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  match         Match[]
+
+  @@index([cursus, status])
+  @@index([email])
+}
+
+model Match {
+  id             Int          @id @default(autoincrement())
+  tutorRequestId Int
+  tutorOfferId   Int
+  status         MatchStatus  @default(PENDING_TUTOR)
+  token          String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  confirmedAt    DateTime?
+  tutorOffer     TutorOffer   @relation(fields: [tutorOfferId], references: [id])
+  tutorRequest   TutorRequest @relation(fields: [tutorRequestId], references: [id])
+
+  @@index([tutorRequestId])
+  @@index([tutorOfferId])
+  @@index([status])
+}
+
 enum Role {
   USER
   ADMIN
+}
+
+enum ContactMethod {
+  MAIL
+  TEAMS
+  DISCORD
+}
+
+enum Cursus {
+  DEV_APPS
+  SEC_SY
+  AI
+}
+
+enum RequestStatus {
+  EN_ATTENTE
+  MATCH_PROPOSE
+  MATCH_CONFIRME
+  CLOS
+}
+
+enum OfferStatus {
+  DISPO
+  PROPOSE
+  ASSIGNE
+  INDISPO
+}
+
+enum MatchStatus {
+  PENDING_TUTOR
+  CONFIRMED
+  DECLINED
 }

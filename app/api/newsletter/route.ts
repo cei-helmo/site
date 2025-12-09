@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/utils/prisma/index";
 import nodemailer from "nodemailer";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { email } = body;
 
+    // Validation minimale côté serveur
     if (!email || !email.includes("@")) {
       return NextResponse.json(
         { error: "Adresse email invalide." },
@@ -16,6 +15,7 @@ export async function POST(req: Request) {
       );
     }
 
+    // Empêche l'inscription multiple du même email
     const existingSubscriber = await prisma.newsletter.findUnique({
       where: { email },
     });
@@ -27,10 +27,9 @@ export async function POST(req: Request) {
       );
     }
 
-    await prisma.newsletter.create({
-      data: { email },
-    });
+    await prisma.newsletter.create({ data: { email } });
 
+    // Transport SMTP : rely sur l'env, aucune valeur par défaut silencieuse
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: parseInt(process.env.SMTP_PORT || "465", 10),
@@ -71,7 +70,5 @@ L’équipe du CEI`,
       { error: "Erreur interne du serveur." },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

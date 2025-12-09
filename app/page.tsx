@@ -14,6 +14,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
+  // Soumission newsletter (validation minimale + feedback toast)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
@@ -33,8 +34,7 @@ export default function Home() {
         setEmail("");
         toast.success(data.message || "Abonnement réussi !");
       } else {
-        const { error } = await res.json();
-        setMessage(error || "Une erreur est survenue.");
+        setMessage(data.error || "Une erreur est survenue.");
         toast.error(data.error || "Une erreur est survenue.");
       }
     } catch (error) {
